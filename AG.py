@@ -17,12 +17,10 @@ y = eval(exp,{
 
 
 fx ='x^2+(2x+3x(4x))'
+
 def transform(fx:str):
     f = list(fx.replace('^','**'))
 
-    # fx2.insert(6,'*')
-    
-    # print(''.join(fx2))
     for i in range(len(f)):
         
         if i < len(f)-1:
@@ -30,15 +28,26 @@ def transform(fx:str):
                 f.insert(i+1,'*')
         if i > 0 :     
             if f[i] == '(' and (f[i-1].isdecimal() or f[i-1].isalpha()):
-                print('Entro a parentesis')
+
                 f.insert(i,'*')   
 
     f = ''.join(f)
         
-    print(f)
+    return f
+
+def evaluateFunction(function:str,x):
+
+    y = eval(function,{
+    'x':x
+    })
+
+    print(y)
 
 
-transform(fx)
+
+
+
+evaluateFunction(transform(fx),2)
 
 
 
