@@ -47,7 +47,7 @@ class Ind:
     
     def genenerateData(self,noBits):
         #Generar id al azar
-        self.id = str(chr(random.randint(ord('A'), ord('Z'))))+str()
+        self.id = chr(random.randint(ord('A'), ord('Z')))
 
         #Generar bits dependiendo del numero proporcionado
         self.bits = []
@@ -84,6 +84,7 @@ class Ind:
         
 
 Population:Ind = []
+
 def generatePopulation():
     lengthInterval = interval[1] - interval[0]
 
@@ -97,9 +98,27 @@ def generatePopulation():
         numBits = numBits + 1
 
     #Generamos los individuos con la clase Ind
-    for i in range(InitialPopulation):
-        ind1 = Ind(numBits)
-        Population.append(ind1)
+    i = 0
+    while(i < InitialPopulation):
+        
+        if i == 0:
+            ind = Ind(numBits)
+            Population.append(ind)
+            i += 1
+
+        if len(Population) > 0:
+            print('AQUI HAY QUE SEGUIRLE')
+            
+        #     print()
+        #     for x in range(len(Population)):
+        #         if Population[x].id == ind.id:
+        #             ind.id = chr(random.randint(ord('A'), ord('Z')))
+
+        # else:
+        #     Population.append(ind)
+        #     i+=1
+        #     print()
+        
     
     for i in range(len(Population)):
         Population[i].toString()
