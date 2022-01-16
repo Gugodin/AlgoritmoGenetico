@@ -79,7 +79,7 @@ class Ind:
         print('Bits: '+str(self.bits))
         print('Decimal: '+str(self.decimal))
         print('Fenotipo: '+str(self.fenotipe))
-        print('Aptitud'+str(self.aptitude))
+        print('Aptitud: '+str(self.aptitude))
         print('___________________________')
         
 
