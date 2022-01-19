@@ -2,17 +2,22 @@ import math
 import random  
 import string
 
+from individuo import Ind
 
 
 #Definicion de parametros
 #x**2+2*x+3
 #Simbolos validos para funcion: +,-,*,/,**,(,)
-InitialPopulation = 2
+InitialPopulation = 3
 MaxPopulation = 10
 ProbMutation = 0.1
 ProbMutationGen = 0.05
 fx ='x^2+3x'
-interval =[-3,4]
+
+interval = {
+    'x':[-3,4],
+    'y':[-1,5]
+}
 resolution = 0.05
 
 def transform(fx:str):
@@ -32,82 +37,44 @@ def transform(fx:str):
         
     return f
 
-def evaluateFunction(function:str,x):
-
-    y = eval(function,{
-    'x':x
-    })
-
-    return y
-
-class Ind:
-    def __init__(self,noBits):
-        # print('a')
-        self.genenerateData(noBits)
-    
-    def genenerateData(self,noBits):
-        #Generar id al azar
-        self.id = chr(random.randint(ord('A'), ord('Z')))
-
-        #Generar bits dependiendo del numero proporcionado
-        self.bits = []
-
-        for i in range(noBits):
-            self.bits.append(round(random.random()))
-        self.bitsStr = ''
-        for i in range(len(self.bits)):
-            self.bitsStr += str(self.bits[i])
-
-        #Generar el numero bit-decimal
-        position = len(self.bits)-1
-        self.decimal = 0
-
-        for i in range(len(self.bits)):
-            currentBit = self.bits[i]
-            if currentBit == 1:
-                self.decimal += 2**position
-            position -= 1
-        #Generar fenotipo
-        self.fenotipe = round((interval[0]+self.decimal)*resolution,3)
-
-        #Generar aptitud de el individuo
-        self.aptitude = round(evaluateFunction(transform(fx),self.fenotipe),3)
-    
-    def toString(self):
-        print('___________________________')
-        print('id: '+self.id)
-        print('Bits: '+str(self.bits))
-        print('Decimal: '+str(self.decimal))
-        print('Fenotipo: '+str(self.fenotipe))
-        print('Aptitud: '+str(self.aptitude))
-        print('___________________________')
-        
 
 Population:Ind = []
 
 def generatePopulation():
-    lengthInterval = interval[1] - interval[0]
+    lengthIntervalX = interval['x'][1] - interval['x'][0]
+    lengthValuesX= (lengthIntervalX/resolution)+1
+    
+    lengthIntervalY = interval['y'][1] - interval['y'][0]
+    lengthValuesY= (lengthIntervalY/resolution)+1
 
-    lengthValues = (lengthInterval/resolution)+1
-
-    #Verificar el numero de bits
-    numBits = 1
+    #Verificar el numero de bits de X y Y
+    numBitsX = 1
+    numBitsY = 1
+    
     while(True):
-        if lengthValues <= 2**numBits:
+        if lengthValuesX <= 2**numBitsX:
             break
-        numBits = numBits + 1
+        numBitsX = numBitsX + 1
+        
+    while(True):
+        if lengthValuesY <= 2**numBitsY:
+            break
+        numBitsY = numBitsY + 1
 
+    
     #Generamos los individuos con la clase Ind
     i = 0
     while(i < InitialPopulation):
-        
-        if i == 0:
-            ind = Ind(numBits)
-            Population.append(ind)
-            i += 1
+        ind = Ind() 
 
-        if len(Population) > 0:
-            print('AQUI HAY QUE SEGUIRLE')
+        
+    #     if i == 0:
+    #         ind = Ind(numBits)
+    #         Population.append(ind)
+    #         i += 1
+
+    #     if len(Population) > 0:
+    #         print('AQUI HAY QUE SEGUIRLE')
             
         #     print()
         #     for x in range(len(Population)):
@@ -120,16 +87,10 @@ def generatePopulation():
         #     print()
         
     
-    for i in range(len(Population)):
-        Population[i].toString()
-
-    
-    
-    
+    # for i in range(len(Population)):
+    #     Population[i].toString()
 
 
-
-    
              
 
     
