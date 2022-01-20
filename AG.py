@@ -12,7 +12,7 @@ InitialPopulation = 6
 MaxPopulation = 10
 ProbMutation = 0.1
 ProbMutationGen = 0.05
-
+numGeneration = 5
 
 interval = {
     'x':[-3,4],
@@ -37,7 +37,7 @@ def transform(fx:str):
         
     return f
 
-
+Generations = {}
 Population = []
 
 def generatePopulation():
@@ -72,7 +72,6 @@ def generatePopulation():
             Population.append(ind)
             i+=1
 
-
              
 
     
@@ -80,18 +79,15 @@ def generatePopulation():
         
 
 if __name__ == '__main__':
+    for i in range(numGeneration):
+        Generations.update({f'gen{i}':[]})
 
+    
     generatePopulation()
 
 
 
 
-
-
-
-
-
-# evaluateFunction(transform(fx),2)
 
 
 

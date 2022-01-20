@@ -77,6 +77,7 @@ class Ind:
                 self.decimal['y'] += 2**positionY
             positionY -= 1
 
+    # APAREAMIENTO Y CRUZA
     
     
     def toString(self):
