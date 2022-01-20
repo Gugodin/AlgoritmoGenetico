@@ -8,11 +8,11 @@ from individuo import Ind
 #Definicion de parametros
 #x**2+2*x+3
 #Simbolos validos para funcion: +,-,*,/,**,(,)
-InitialPopulation = 3
+InitialPopulation = 6
 MaxPopulation = 10
 ProbMutation = 0.1
 ProbMutationGen = 0.05
-fx ='x^2+3x'
+
 
 interval = {
     'x':[-3,4],
@@ -38,7 +38,7 @@ def transform(fx:str):
     return f
 
 
-Population:Ind = []
+Population = []
 
 def generatePopulation():
     lengthIntervalX = interval['x'][1] - interval['x'][0]
@@ -65,30 +65,12 @@ def generatePopulation():
     #Generamos los individuos con la clase Ind
     i = 0
     while(i < InitialPopulation):
-        ind = Ind() 
 
-        
-    #     if i == 0:
-    #         ind = Ind(numBits)
-    #         Population.append(ind)
-    #         i += 1
+        ind = Ind([numBitsX,numBitsY],[interval['x'][0],interval['y'][0]],resolution,None) 
 
-    #     if len(Population) > 0:
-    #         print('AQUI HAY QUE SEGUIRLE')
-            
-        #     print()
-        #     for x in range(len(Population)):
-        #         if Population[x].id == ind.id:
-        #             ind.id = chr(random.randint(ord('A'), ord('Z')))
-
-        # else:
-        #     Population.append(ind)
-        #     i+=1
-        #     print()
-        
-    
-    # for i in range(len(Population)):
-    #     Population[i].toString()
+        if ind.decimal['x'] < lengthValuesX and ind.decimal['y'] < lengthValuesY:
+            Population.append(ind)
+            i+=1
 
 
              
@@ -98,9 +80,6 @@ def generatePopulation():
         
 
 if __name__ == '__main__':
-    # print('hola')
-
-    # ind1= Ind(10)
 
     generatePopulation()
 
