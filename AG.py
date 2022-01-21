@@ -71,7 +71,8 @@ def generatePopulation():
         if ind.decimal['x'] < lengthValuesX and ind.decimal['y'] < lengthValuesY:
             Population.append(ind)
             i+=1
-
+    
+        print(ind.toString())
              
 
     
@@ -79,8 +80,8 @@ def generatePopulation():
         
 
 if __name__ == '__main__':
-    for i in range(numGeneration):
-        Generations.update({f'gen{i}':[]})
+    # for i in range(numGeneration):
+    #     Generations.update({f'gen{i}':[]})
 
     
     generatePopulation()

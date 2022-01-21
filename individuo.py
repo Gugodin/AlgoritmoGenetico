@@ -81,11 +81,5 @@ class Ind:
     
     
     def toString(self):
-        print('___________________________')
-        print('id: '+self.id)
-        print('Bits: '+str(self.bits))
-        print('Decimal: '+str(self.decimal))
-        print('Fenotipo: '+str(self.fenotipe))
-        print('Aptitud: '+str(self.aptitude))
-        print('___________________________')
+        return f'id: {self.id}\n' + f'Bits: {str(self.bits)}\n' + f'Decimal: {str(self.decimal)}\n' + f'Fenotipo: {str(self.fenotipe)}\n' + f'Aptitud: {str(self.aptitude)}\n'
         
