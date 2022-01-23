@@ -40,6 +40,8 @@ def transform(fx:str):
 
 Generations = {}
 Population = []
+lengthValuesX = 0
+lengthValuesY = 0
 
 def generatePopulation():
     lengthIntervalX = interval['x'][1] - interval['x'][0]
@@ -93,20 +95,22 @@ def mating(numB):
         else:
             parents.append([partner1])
 
-    #Generar la cruza
+    #Generar a los hijos con la cruza y mutacion
     children = cruza(parents,numB)
 
 def cruza (parents,numB):
 
-    for i in range( len(parents)):
+    children = []
+
+    for i in range(len(parents)):
         spotCruzaX =  random.randint(1,len(parents[i][0].bits['x'])-1)
         spotCruzaY = random.randint(1,len(parents[i][0].bits['y'])-1)
         print(f'Punto de cruza en X {spotCruzaX} pareja {i}')
         print(f'Punto de cruza en Y {spotCruzaY} pareja {i}')
 
-        name1 = ''
-        name2 = ''
         if len(parents[i]) !=1:
+            name1 = ''
+            name2 = ''
 
             p1 = parents[i][0].bits
             p2 = parents[i][1].bits
@@ -114,7 +118,8 @@ def cruza (parents,numB):
             print(f'Padre 1 {p1}')
             print(f'Padre 2 {p2}')
 
-            # name1 = name1 + parents[i][0].id + parents[i][1].id
+            name1 = name1 + parents[i][0].id + parents[i][1].id
+            name2 = name2 + parents[i][1].id + parents[i][0].id
 
 
             child1BitsX = []
@@ -161,16 +166,17 @@ def cruza (parents,numB):
                 'y':child2BitsY
                 }
 
-            print(f'Hijo 1 : {child1Bits}')
-            print(f'Hijo 2 :{child2Bits}')
+            # print(f'Hijo 1 : {child1Bits}')
+            # print(f'Hijo 2 :{child2Bits}')
             
             #Ahora vemos cual de los hijos mutara o no
 
             pMCh1 = round(random.uniform(0,1),2)
             pMCh2 = round(random.uniform(0,1),2)
             
-            print(f'Probabilidad de Mutacion H1 {pMCh1}')
-            print(f'Probabilidad de Mutacion H2 {pMCh2}')
+            # print(f'Probabilidad de Mutacion H1 {pMCh1}')
+            # print(f'Probabilidad de Mutacion H2 {pMCh2}')
+
             if pMCh1 <= ProbMutation:
                 #Mutara el hijo 1
                 #Generar probabilidades de mutacion por gen             
@@ -180,7 +186,7 @@ def cruza (parents,numB):
                     # print(f'Probabilidad de mutacion GenX {pMGx} Posicion: {i}')
                     if pMGx <= ProbMutationGen:
                         #Va a mutar en esta posicion
-                        print(f'Muto el hijo 1 pos {i} X')
+                        # print(f'Muto el hijo 1 pos {i} X')
                         if child1Bits['x'][i] == 0:
                             child1Bits['x'][i] = 1
                         elif child1Bits['x'][i] == 1:
@@ -191,7 +197,7 @@ def cruza (parents,numB):
                     # print(f'Probabilidad de mutacion GenY {pMGy} Posicion: {i}')
                     if pMGy <= ProbMutationGen:
                         #Va a mutar en esta posicion
-                        print(f'Muto el hijo 1 pos {i} Y')
+                        # print(f'Muto el hijo 1 pos {i} Y')
                         if child1Bits['y'][i] == 0:
                             child1Bits['y'][i] = 1
                         elif child1Bits['y'][i] == 1:
@@ -207,7 +213,7 @@ def cruza (parents,numB):
                     # print(f'Probabilidad de mutacion GenX {pMGx} Posicion: {i}')
                     if pMGx <= ProbMutationGen:
                         #Va a mutar en esta posicion
-                        print(f'Muto el hijo 2 pos {i} X')
+                        # print(f'Muto el hijo 2 pos {i} X')
                         if child2Bits['x'][i] == 0:
                             child2Bits['x'][i] = 1
                         elif child2Bits['x'][i] == 1:
@@ -218,7 +224,7 @@ def cruza (parents,numB):
                     # print(f'Probabilidad de mutacion GenY {pMGy} Posicion: {i}')
                     if pMGy <= ProbMutationGen:
                         #Va a mutar en esta posicion
-                        print(f'Muto el hijo 2 pos {i} Y')
+                        # print(f'Muto el hijo 2 pos {i} Y')
                         if child2Bits['y'][i] == 0:
                             child2Bits['y'][i] = 1
                         elif child2Bits['y'][i] == 1:
@@ -230,13 +236,19 @@ def cruza (parents,numB):
             #Crear el objeto Ind pero como Hijo
             ###################################
 
+            child1 = Ind(None,[interval['x'][0],interval['y'][0]],resolution,name1,child1Bits)
+            child2 = Ind(None,[interval['x'][0],interval['y'][0]],resolution,name2,child2Bits)
 
+            if child1.decimal['x'] < lengthValuesX and child1.decimal['y'] < lengthValuesY:
+                children.append(child1)
 
-
+            if child2.decimal['x'] < lengthValuesX and child2.decimal['y'] < lengthValuesY:
+                children.append(child2)
 
 
         else:
-            name=name + parents[i][0].id + parents[i][0].id
+            name1 = ''
+            name1 = name1 + parents[i][0].id + parents[i][0].id
 
 
 

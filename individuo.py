@@ -3,29 +3,36 @@ import random
 Letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 fx ='-x**3+4*x*y-2*y**2+1'
 class Ind:
-    def __init__(self,noBits, intervaloA, resolucion,idParents, bits = {}):      
+    def __init__(self,noBits, intervaloA, resolucion,idParents, bits = {}):   
         if idParents == None:
             self.genenerateDataInd(noBits,intervaloA,resolucion)
         else:
-            self.generateDataChild(idParents,bits)
+            self.generateDataChild(idParents,bits,intervaloA,resolucion)
 
-    def generateDataChild(self,idParents,bits):
+    def generateDataChild(self,idParents,bits,intervaloA,resolucion):
 
         self.id = idParents
-
         self.bits = bits
-
         
+        #Generar decimal
+        self.generateDecimal()
 
+        #Generar fenotipo
+        self.generateFenotipe(intervaloA,resolucion)
 
-        print()
+        #Generar aptitud
+        self.aptitude = round(self.evaluateFunction(fx,self.fenotipe['x'],self.fenotipe['y']),3)
+
         
     def genenerateDataInd(self,noBits,intervaloA,resolucion):
         #Generar id al azar
         self.id = Letters.pop()
 
-        #Generar bit y decimal
+        #Generar bit 
         self.generateBits(noBits)
+
+        #Generar decimal
+        self.generateDecimal()
 
         #Generar fenotipo
         self.generateFenotipe(intervaloA,resolucion)
@@ -66,9 +73,10 @@ class Ind:
        
         for i in range(noBits[1]):
             self.bits['y'].append(round(random.random()))
-
-        #Generar el numero bit-decimal
         
+
+    def generateDecimal(self):
+
         positionX = len(self.bits['x'])-1
         positionY = len(self.bits['y'])-1
 
