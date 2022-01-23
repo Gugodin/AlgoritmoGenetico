@@ -1,7 +1,7 @@
 import random 
 
 Letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-fx ='-x**3+4*x*y-2*y**2+1'
+fx ='-x**3+4*x *y-2*y**2+1'
 class Ind:
     def __init__(self,noBits, intervaloA, resolucion,idParents, bits = {}):   
         if idParents == None:
