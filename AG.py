@@ -14,6 +14,9 @@ ProbMutation = 0.1
 ProbMutationGen = 0.05
 numGeneration = 10
 
+Generations = {}
+Population:Ind = []
+
 interval = {
     'x':[-3,4],
     'y':[-1,5]
@@ -38,8 +41,6 @@ def transform(fx:str):
         
     return f
 
-Generations = {}
-Population:Ind = []
 
 def generatePopulation():
 
@@ -322,11 +323,11 @@ def poda():
 
 
 if __name__ == '__main__':
-    
-    for i in range(numGeneration):
-        Generations.update({f'gen{i}':[]})
 
-    
+    for i in range(numGeneration):
+        Generations.update({f'gen{i+1}':[]})
+
+    # print(Generations)  
     numB = generatePopulation()
 
 
@@ -345,21 +346,29 @@ if __name__ == '__main__':
 
         # print(len(Population))
 
-         
-        for i in range(len(Population)):
-            Generations[f'gen{i}'].append(Population[i])
+        print(f'ES LA GENERACION {i+1}')
+        for y in range(len(Population)):
+            print(Population[y].toString())
 
+        for x in range(len(Population)):
+            Generations[f'gen{i+1}'].append(Population[x])
+
+    # print(Generations)
 
     
         
     # for i in range(numGeneration):
         # print(Generations[f'gen{i}'])
+    print('ESTA ES LA GENERACION 10')
+    for i in range(len(Generations['gen10'])):
+        print(Generations['gen10'][i].toString())
 
-    for i in range(len(Generations['gen9'])):
-        print(Generations['gen9'][i].toString())
+    print('ESTA ES LA GENERACION 1')
     for i in range(len(Generations['gen1'])):
-        print('GENERACION PRIMERA')
         print(Generations['gen1'][i].toString())
+    # for i in range(len(Generations['gen1'])):
+    #     print('GENERACION PRIMERA')
+    #     print(Generations['gen1'][i].toString())
         # print(Generations['gen9'][i].aptitude)
     # print(Generations)
    
