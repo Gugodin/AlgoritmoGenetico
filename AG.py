@@ -3,6 +3,7 @@ import random
 import string
 import tkinter as tk
 from tkinter import *
+import matplotlib.pyplot as plt
 from individuo import Ind
 
 
@@ -14,7 +15,6 @@ from individuo import Ind
 # MaxPopulation = 10
 # ProbMutation = 0.1
 # ProbMutationGen = 0.05
-numGeneration = 10
 
 Generations = {}
 Population:Ind = []
@@ -320,7 +320,7 @@ def poda():
                 break
 #interfas grefica mas los datos
 
-def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion):
+def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion, valorgene):
     global InitialPopulation 
     global MaxPopulation
     global ProbMutation
@@ -334,6 +334,7 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     global valorXmax
     global valorYmin
     global valorYmax
+    global numGeneration
     
     
     InitialPopulation = poblacionI
@@ -345,6 +346,7 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     valorXmax =  maximoX
     valorYmin = minimoY
     valorYmax = maximoY
+    numGeneration = valorgene
     
     interval['x'].append(valorXmin)
     interval['x'].append(valorXmax)
@@ -387,18 +389,56 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
         
     # for i in range(numGeneration):
         # print(Generations[f'gen{i}'])
-    print('ESTA ES LA GENERACION 10')
-    for i in range(len(Generations['gen10'])):
-        print(Generations['gen10'][i].toString())
+    # print('ESTA ES LA GENERACION 10')
+    # for i in range(len(Generations['gen10'])):
+    #     print(Generations['gen10'][i].toString())
 
-    print('ESTA ES LA GENERACION 1')
-    for i in range(len(Generations['gen1'])):
-        print(Generations['gen1'][i].toString())
+    # print('ESTA ES LA GENERACION 1')
+    # for i in range(len(Generations['gen1'])):
+    #     print(Generations['gen1'][i].toString())
     # for i in range(len(Generations['gen1'])):
     #     print('GENERACION PRIMERA')
     #     print(Generations['gen1'][i].toString())
         # print(Generations['gen9'][i].aptitude)
     # print(Generations)
+    # x = np.linspace(0, 2, 100)
+
+
+    promedioList = []
+    bestList = []
+    worstList = []
+    # AQUI MAÑANA PLS
+    for i in range(numGeneration):
+
+        aptitudes = []
+    
+        for x in range(len(Generations[f'gen{i+1}'])):
+            aptitudes.append(Generations[f'gen{i+1}'][i].aptitude)
+
+        bestList.append(max(aptitudes))
+        worstList.append(min(aptitudes))
+        
+        
+        #Sacar promedio
+        prom = 0
+
+        for y in range(len(aptitudes)):
+            prom += aptitudes[i]
+        
+        promedioList.append(prom/len(aptitudes))
+
+    print(promedioList)
+    print(bestList)
+    print(worstList)
+
+
+    # figure = plt.figure(figsize=(15,10))
+    # ax = plt.subplot(1,1,1)
+    # ax.plot( [0,1,5,5], label='Promedio')  # Plot some data on the (implicit) axes.
+    # ax.plot( [2,1,6,5], label='Peor')  # etc.
+    # ax.plot( [5,4,53,8], label='Mejor')
+
+    # plt.show()  
    
 
     
@@ -407,6 +447,13 @@ def inicio():
     window = Tk()
     window.title("Algoritmos Geneticos")
     window.geometry('600x300')
+    #generacion
+    lbl = Label(window, text="Numero Generacion: ")
+    lbl.grid(column=0, row=9)
+    valor10 = Entry(window,width=10)
+    valor10.grid(column=1, row=9)
+    valor10.focus()
+
     #PI
     lbl = Label(window, text="Poblacion Inicial: ")
     lbl.grid(column=0, row=0)
@@ -429,7 +476,7 @@ def inicio():
     lb4 = Label(window, text="Intervalo Maximo de 'X': ")
     lb4.grid(column=0, row=3)
     valor4 = Entry(window,width=10)
-    valor4.grid(column=1, row=3)
+    valor4.grid(column=1, row=3) 
     valor4.focus()
     #IX
     lb5 = Label(window, text="Intervalo Minimo de 'Y': ")
@@ -472,7 +519,8 @@ def inicio():
         probabilidadM = valor7.get()
         probabilidadG = valor8.get()
         resolucion = valor9.get()
-        
+        valorgene = valor10.get()
+
         poblacionI = int(poblacionI)
         poblacionM = int(poblacionM)
         minimoX = int(minimoX)
@@ -482,11 +530,12 @@ def inicio():
         probabilidadM = float(probabilidadM)
         probabilidadG = float(probabilidadG)
         resolucion = float(resolucion)
+        valorgene = int(valorgene)
         
-        valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion)
+        valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion, valorgene)
     
         
-    btn = Button(window, text="Graficar Evolucion", bg="blue",fg="white", command=valores)
+    btn = Button(window, text="Graficar Evolucion", bg="red",fg="white", command=valores)
     btn.grid(column=1, row=10)
     window.mainloop()
     
@@ -496,6 +545,7 @@ def inicio():
         
 if __name__ == '__main__':
     inicio()
+    
     
     
 
