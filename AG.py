@@ -4,6 +4,7 @@ import string
 import tkinter as tk
 from tkinter import *
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 from individuo import Ind
 
 
@@ -308,7 +309,6 @@ def poda():
     
     for i in range(len(Population)):
         aptitudes.append(Population[i].aptitude)
-    # print(aptitudes)
 
     for i in range(numEliminations):
         # print(f'Minimo: {min(aptitudes)}')
@@ -318,6 +318,7 @@ def poda():
                 Population.pop(x)
                 aptitudes.pop(x)
                 break
+    # print(aptitudes)
 #interfas grefica mas los datos
 
 def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion, valorgene):
@@ -376,9 +377,9 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
 
         # print(len(Population))
 
-        print(f'ES LA GENERACION {i+1}')
-        for y in range(len(Population)):
-            print(Population[y].toString())
+        # print(f'ES LA GENERACION {i+1}')
+        # for y in range(len(Population)):
+        #     print(Population[y].aptitude)
 
         for x in range(len(Population)):
             Generations[f'gen{i+1}'].append(Population[x])
@@ -404,17 +405,23 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     # x = np.linspace(0, 2, 100)
 
 
-    promedioList = []
-    bestList = []
-    worstList = []
+    promedioList = [0]
+    bestList = [0]
+    worstList = [0]
     # AQUI MAÑANA PLS
     for i in range(numGeneration):
 
         aptitudes = []
     
         for x in range(len(Generations[f'gen{i+1}'])):
-            aptitudes.append(Generations[f'gen{i+1}'][i].aptitude)
+            aptitudes.append(Generations[f'gen{i+1}'][x].aptitude)
 
+        # print(f'Estas son las aptitudes de la generacion {i+1}')
+        # print(aptitudes)
+        # print(f'Estas esta es la mejor aptitud {max(aptitudes)}')
+        # print(f'Estas esta es la peor aptitud {min(aptitudes)}')
+        
+    
         bestList.append(max(aptitudes))
         worstList.append(min(aptitudes))
         
@@ -423,22 +430,36 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
         prom = 0
 
         for y in range(len(aptitudes)):
-            prom += aptitudes[i]
+            prom += aptitudes[y]
         
+        # print(f'Estas esta es el promedio de aptitud {prom/len(aptitudes)}')
         promedioList.append(prom/len(aptitudes))
 
-    print(promedioList)
-    print(bestList)
-    print(worstList)
+
+    # print(bestList)
+    # print(worstList)
+    # print(promedioList)
+    gene = [0]
 
 
-    # figure = plt.figure(figsize=(15,10))
-    # ax = plt.subplot(1,1,1)
-    # ax.plot( [0,1,5,5], label='Promedio')  # Plot some data on the (implicit) axes.
-    # ax.plot( [2,1,6,5], label='Peor')  # etc.
-    # ax.plot( [5,4,53,8], label='Mejor')
+    for i in range(len(Generations)):
+        gene.append(i+1)
+    # print(gene)
+    figure = plt.figure(figsize=(15,10))
+    ax = plt.subplot(1,1,1)
+    ax.plot( gene,promedioList, label='Promedio',marker='.')  # Plot some data on the (implicit) axes.
+    ax.plot( gene,worstList, label='Peor',marker='.')  # etc.
+    ax.plot( gene,bestList,label='Mejor',marker='.')
 
-    # plt.show()  
+    blue_line = mlines.Line2D([], [], color='blue', marker='*',
+                          markersize=15, label='Promedio')
+    red = mlines.Line2D([], [], color='orange', marker='*',
+                          markersize=15, label='Peor')
+    yel = mlines.Line2D([], [], color='green', marker='*',
+                          markersize=15, label='Mejor')
+    ax.legend(handles=[blue_line,red,yel])
+
+    plt.show()  
    
 
     
@@ -536,7 +557,7 @@ def inicio():
     
         
     btn = Button(window, text="Graficar Evolucion", bg="red",fg="white", command=valores)
-    btn.grid(column=1, row=10)
+    btn.grid(column=3, row=10)
     window.mainloop()
     
    
