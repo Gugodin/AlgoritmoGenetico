@@ -1,28 +1,30 @@
 import math
 import random  
 import string
-
+import tkinter as tk
+from tkinter import *
 from individuo import Ind
+
 
 
 #Definicion de parametros
 #x**2+2*x+3
 #Simbolos validos para funcion: +,-,*,/,**,(,)
-InitialPopulation = 5
-MaxPopulation = 10
-ProbMutation = 0.1
-ProbMutationGen = 0.05
+# InitialPopulation = 5
+# MaxPopulation = 10
+# ProbMutation = 0.1
+# ProbMutationGen = 0.05
 numGeneration = 10
 
 Generations = {}
 Population:Ind = []
 
 interval = {
-    'x':[-3,4],
-    'y':[-1,5]
+    'x':[],
+    'y':[]
 }
 
-resolution = 0.05
+#resolution = 0.05
 
 def transform(fx:str):
     f = list(fx.replace('^','**'))
@@ -316,18 +318,44 @@ def poda():
                 Population.pop(x)
                 aptitudes.pop(x)
                 break
+#interfas grefica mas los datos
+
+def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion):
+    global InitialPopulation 
+    global MaxPopulation
+    global ProbMutation
+    global ProbMutationGen 
+    global resolution
+    global intervaloMinimoX
+    global intervaloMaximoX
+    global intervaloMinimoY
+    global intervaloMaximoY
+    global valorXmin
+    global valorXmax
+    global valorYmin
+    global valorYmax
     
-
-
-    # print(aptitudes)
-
-
-if __name__ == '__main__':
-
+    
+    InitialPopulation = poblacionI
+    MaxPopulation = poblacionM 
+    ProbMutation = probabilidadM
+    ProbMutationGen = probabilidadG
+    resolution = resolucion
+    valorXmin = minimoX
+    valorXmax =  maximoX
+    valorYmin = minimoY
+    valorYmax = maximoY
+    
+    interval['x'].append(valorXmin)
+    interval['x'].append(valorXmax)
+    interval['y'].append(valorYmin)
+    interval['y'].append(valorYmax)
+    
     for i in range(numGeneration):
         Generations.update({f'gen{i+1}':[]})
 
-    # print(Generations)  
+    # print(Generations) 
+    
     numB = generatePopulation()
 
 
@@ -373,6 +401,102 @@ if __name__ == '__main__':
     # print(Generations)
    
 
+    
+    
+def inicio():
+    window = Tk()
+    window.title("Algoritmos Geneticos")
+    window.geometry('600x300')
+    #PI
+    lbl = Label(window, text="Poblacion Inicial: ")
+    lbl.grid(column=0, row=0)
+    valor1 = Entry(window,width=10)
+    valor1.grid(column=1, row=0)
+    valor1.focus()
+    #PM
+    lb2 = Label(window, text="Poblacion Maxima: ")
+    lb2.grid(column=0, row=1)
+    valor2 = Entry(window,width=10)
+    valor2.grid(column=1, row=1)
+    valor2.focus()
+    #IX
+    lb3 = Label(window, text="Intervalo Minimo de 'X': ")
+    lb3.grid(column=0, row=2)
+    valor3 = Entry(window,width=10)
+    valor3.grid(column=1, row=2)
+    valor3.focus()
+    
+    lb4 = Label(window, text="Intervalo Maximo de 'X': ")
+    lb4.grid(column=0, row=3)
+    valor4 = Entry(window,width=10)
+    valor4.grid(column=1, row=3)
+    valor4.focus()
+    #IX
+    lb5 = Label(window, text="Intervalo Minimo de 'Y': ")
+    lb5.grid(column=0, row=4)
+    valor5 = Entry(window,width=10)
+    valor5.grid(column=1, row=4)
+    valor5.focus()
+    
+    lb6 = Label(window, text="Intervalo Maximo de 'Y': ")
+    lb6.grid(column=0, row=5)
+    valor6 = Entry(window,width=10)
+    valor6.grid(column=1, row=5)
+    valor6.focus()
+    #PM
+    lb7 = Label(window, text="Probabilidad de mutacion del individuo: ")
+    lb7.grid(column=0, row=6)
+    valor7 = Entry(window,width=10)
+    valor7.grid(column=1, row=6)
+    valor7.focus()
+    
+    lb8 = Label(window, text="Probabilidad de mutacion de gen: ")
+    lb8.grid(column=0, row=7)
+    valor8 = Entry(window,width=10)
+    valor8.grid(column=1, row=7)
+    valor8.focus()
+    #EP
+    lb9 = Label(window, text="Resolucion: ")
+    lb9.grid(column=0, row=8)
+    valor9 = Entry(window,width=10)
+    valor9.grid(column=1, row=8)
+    valor9.focus()
+    
+    def valores():
+        poblacionI = valor1.get()
+        poblacionM = valor2.get()
+        minimoX = valor3.get()
+        maximoX = valor4.get()
+        minimoY = valor5.get()
+        maximoY = valor6.get()
+        probabilidadM = valor7.get()
+        probabilidadG = valor8.get()
+        resolucion = valor9.get()
+        
+        poblacionI = int(poblacionI)
+        poblacionM = int(poblacionM)
+        minimoX = int(minimoX)
+        maximoX = int(maximoX)
+        minimoY = int(minimoY)
+        maximoY = int(maximoY)
+        probabilidadM = float(probabilidadM)
+        probabilidadG = float(probabilidadG)
+        resolucion = float(resolucion)
+        
+        valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabilidadM, probabilidadG, resolucion)
+    
+        
+    btn = Button(window, text="Graficar Evolucion", bg="blue",fg="white", command=valores)
+    btn.grid(column=1, row=10)
+    window.mainloop()
+    
+   
+        
+        
+        
+if __name__ == '__main__':
+    inicio()
+    
     
 
 
