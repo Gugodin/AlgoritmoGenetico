@@ -369,6 +369,8 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
         
         
         
+        for x in range(len(Population)):
+            Generations[f'gen{i+1}'].append(Population[x])
         # print(f'Antes de poda {len(Population)}')
         if len(Population) > MaxPopulation:
             
@@ -381,8 +383,6 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
         # for y in range(len(Population)):
         #     print(Population[y].aptitude)
 
-        for x in range(len(Population)):
-            Generations[f'gen{i+1}'].append(Population[x])
 
     # print(Generations)
 
@@ -405,9 +405,9 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     # x = np.linspace(0, 2, 100)
 
 
-    promedioList = [0]
-    bestList = [0]
-    worstList = [0]
+    promedioList = []
+    bestList = []
+    worstList = []
     # AQUI MAÑANA PLS
     for i in range(numGeneration):
 
@@ -439,7 +439,7 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     # print(bestList)
     # print(worstList)
     # print(promedioList)
-    gene = [0]
+    gene = []
 
 
     for i in range(len(Generations)):
@@ -451,11 +451,11 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     ax.plot( gene,worstList, label='Peor',marker='.')  # etc.
     ax.plot( gene,bestList,label='Mejor',marker='.')
 
-    blue_line = mlines.Line2D([], [], color='blue', marker='*',
+    blue_line = mlines.Line2D([], [], color='blue', 
                           markersize=15, label='Promedio')
-    red = mlines.Line2D([], [], color='orange', marker='*',
+    red = mlines.Line2D([], [], color='orange', 
                           markersize=15, label='Peor')
-    yel = mlines.Line2D([], [], color='green', marker='*',
+    yel = mlines.Line2D([], [], color='green', 
                           markersize=15, label='Mejor')
     ax.legend(handles=[blue_line,red,yel])
 
