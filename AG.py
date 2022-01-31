@@ -3,6 +3,7 @@ import random
 import string
 import tkinter as tk
 from tkinter import *
+from unicodedata import decimal
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 from individuo import Ind
@@ -377,50 +378,19 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
             #Inicia poda
             poda()
 
-        # print(len(Population))
-
-        # print(f'ES LA GENERACION {i+1}')
-        # for y in range(len(Population)):
-        #     print(Population[y].aptitude)
-
-
-    # print(Generations)
-
-    
-        
-    # for i in range(numGeneration):
-        # print(Generations[f'gen{i}'])
-    # print('ESTA ES LA GENERACION 10')
-    # for i in range(len(Generations['gen10'])):
-    #     print(Generations['gen10'][i].toString())
-
-    # print('ESTA ES LA GENERACION 1')
-    # for i in range(len(Generations['gen1'])):
-    #     print(Generations['gen1'][i].toString())
-    # for i in range(len(Generations['gen1'])):
-    #     print('GENERACION PRIMERA')
-    #     print(Generations['gen1'][i].toString())
-        # print(Generations['gen9'][i].aptitude)
-    # print(Generations)
-    # x = np.linspace(0, 2, 100)
 
 
     promedioList = []
     bestList = []
     worstList = []
-    # AQUI MAÑANA PLS
+    bestInd = []
+
     for i in range(numGeneration):
 
         aptitudes = []
     
         for x in range(len(Generations[f'gen{i+1}'])):
             aptitudes.append(Generations[f'gen{i+1}'][x].aptitude)
-
-        # print(f'Estas son las aptitudes de la generacion {i+1}')
-        # print(aptitudes)
-        # print(f'Estas esta es la mejor aptitud {max(aptitudes)}')
-        # print(f'Estas esta es la peor aptitud {min(aptitudes)}')
-        
     
         bestList.append(max(aptitudes))
         worstList.append(min(aptitudes))
@@ -432,21 +402,52 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
         for y in range(len(aptitudes)):
             prom += aptitudes[y]
         
-        # print(f'Estas esta es el promedio de aptitud {prom/len(aptitudes)}')
         promedioList.append(prom/len(aptitudes))
 
+    
+    temp = Generations[f'gen{numGeneration}']
+    aptitudes = []
+    
+    for x in range(len(Generations[f'gen{numGeneration}'])):
+        aptitudes.append(Generations[f'gen{numGeneration}'][x].aptitude)
 
-    # print(bestList)
-    # print(worstList)
-    # print(promedioList)
+    for i in range(4):
+        mejorAp = max(aptitudes)
+        indexMejorAp = aptitudes.index(mejorAp)
+        aptitudes.pop(indexMejorAp)
+        indMejor = temp.pop(indexMejorAp)
+        bestInd.append(indMejor)
+
+    for i in range(len(bestInd)):
+        print(bestInd[i].toString())
+
+
+    
     gene = []
+    tabla = [['Bits','i','Fenotipo','Aptitud']]
 
+    for i in range(4):
+        currentInd = bestInd[i]
+        fila = []
+        bits = f'BitsX: {str(currentInd.bits["x"])}\nBitsY: {str(currentInd.bits["y"])}'
+        decimal = f'DecimalX: {str(currentInd.decimal["x"])}\nDecimalY: {str(currentInd.decimal["y"])}'
+        fenotipo = f'FenotipoX: {str(currentInd.fenotipe["x"])}\nFenotipoY: {str(currentInd.fenotipe["y"])}'
+        aptitud = f'Aptitud: {str(currentInd.aptitude)}'
+
+        fila.append(bits)
+        fila.append(decimal)
+        fila.append(fenotipo)
+        fila.append(aptitud)
+
+        tabla.append(fila)
 
     for i in range(len(Generations)):
         gene.append(i+1)
     # print(gene)
+
+
     figure = plt.figure(figsize=(15,10))
-    ax = plt.subplot(1,1,1)
+    ax = plt.subplot(2,1,1)
     ax.plot( gene,promedioList, label='Promedio',marker='.')  # Plot some data on the (implicit) axes.
     ax.plot( gene,worstList, label='Peor',marker='.')  # etc.
     ax.plot( gene,bestList,label='Mejor',marker='.')
@@ -458,6 +459,23 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     yel = mlines.Line2D([], [], color='green', 
                           markersize=15, label='Mejor')
     ax.legend(handles=[blue_line,red,yel])
+
+    ax2 = plt.subplot(2,1,2)
+    ax2.axis('tight')
+    ax2.axis('off')
+    table = ax2.table(cellText = tabla, loc = "center", cellLoc = 'center')
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1,3)
+
+    figure2 = plt.figure(figsize=(15,10))
+    ax = plt.subplot(1,1,1)
+    ax.scatter( [[5,6,7,1],1,2,2,2,2,2,2,2,2],[1,2,3,4,5,6,7,8,9,10] ,marker='x',color='red')  # Plot some data on the (implicit) axes.
+
+
+    ax2.set_title('\n Tabla de mejores individuos')
+
+
 
     plt.show()  
    
