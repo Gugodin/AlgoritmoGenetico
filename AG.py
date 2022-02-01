@@ -19,6 +19,7 @@ from individuo import Ind
 # ProbMutationGen = 0.05
 
 Generations = {}
+GenerationsPoda = {}
 Population:Ind = []
 
 interval = {
@@ -358,6 +359,9 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     for i in range(numGeneration):
         Generations.update({f'gen{i+1}':[]})
 
+    for i in range(numGeneration):
+        GenerationsPoda.update({f'gen{i+1}':[]})
+
     # print(Generations) 
     
     numB = generatePopulation()
@@ -365,19 +369,19 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
 
     for i in range(numGeneration):
 
-        # print(f'Antes de cruza {len(Population)}')
         mating(numB,numB[2],numB[3])
         
         
         
         for x in range(len(Population)):
             Generations[f'gen{i+1}'].append(Population[x])
-        # print(f'Antes de poda {len(Population)}')
         if len(Population) > MaxPopulation:
             
             #Inicia poda
             poda()
 
+        for x in range(len(Population)):
+            GenerationsPoda[f'gen{i+1}'].append(Population[x])
 
 
     promedioList = []
@@ -467,20 +471,44 @@ def valoresG(poblacionI, poblacionM, minimoX, maximoX, minimoY, maximoY, probabi
     table.auto_set_font_size(False)
     table.set_fontsize(10)
     table.scale(1,3)
-
-    figure2 = plt.figure(figsize=(15,10))
-    ax = plt.subplot(1,1,1)
-    ax.scatter( [[5,6,7,1],1,2,2,2,2,2,2,2,2],[1,2,3,4,5,6,7,8,9,10] ,marker='x',color='red')  # Plot some data on the (implicit) axes.
-
-
     ax2.set_title('\n Tabla de mejores individuos')
 
-
-
     plt.show()  
+
+    generateEvolitionByInd()
+
+
    
 
-    
+def generateEvolitionByInd():
+
+    for i in range(len(GenerationsPoda)):
+
+        currentGeneration = GenerationsPoda[f'gen{i+1}']
+
+        figure2 = plt.figure(figsize=(15,10))
+
+        ax = plt.subplot(1,1,1)
+        ax.set_title(f'Generacion{i+1}')
+        # ax.xaxis.set_major_formatter([-3,3])
+
+        print(len(currentGeneration))
+        ax.plot(interval['x'][0],interval['y'][0] ,marker='o',lw = 0,visible=False)
+        ax.plot(interval['x'][1],interval['y'][1] ,marker='o',lw = 0,visible=False)
+        for x in range(len(currentGeneration)):
+
+            ax.plot(currentGeneration[x].fenotipe['x'],currentGeneration[x].fenotipe['y'] ,marker='o',lw = 0)
+        
+        # if i+1 ==  10:
+
+        #     for x in range(len(currentGeneration)):
+
+        #         print(currentGeneration[x].toString())
+            
+
+        plt.savefig(f'./prue/img{i}')
+        plt.show()
+      
     
 def inicio():
     window = Tk()
